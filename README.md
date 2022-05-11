@@ -110,5 +110,37 @@ function App() {
   );
 }
 ```
-> useEffect는 2개의 인자를 받는다. 첫 번째는 function으로서의 effect(ex. sayHello), deps(ex, [number])가 있다면 effect는 deps에 있는 값일 때만 값이 변화도록 활성화 된다.
-> useEffect는 기본적으로 첫번째 렌더링과 이후의 모든 업데이트에서 수행된다.
+> - useEffect는 2개의 인자를 받는다. 첫 번째는 function으로서의 effect(ex. sayHello), deps(ex, [number])가 있다면 effect는 deps에 있는 값일 때만 값이 변화도록 활성화 된다.
+> - useEffect는 기본적으로 첫번째 렌더링과 이후의 모든 업데이트에서 수행된다.
+
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/af3bacfbf0f20a2e0811748ba86fcbf5cf79cbda/src/App.js#L3-L20)
+
+
+## useEffect
+
+> 문서 제목을 업데이트한다.
+
+```javascript
+const useTitle = (initialTitle) => {
+  const [title, setTitle] = useState(initialTitle);
+  const updateTitle = () => {
+    const htmlTitle = document.querySelector("title");
+    htmlTitle.innerText = title;
+  }
+  useEffect(updateTitle, [title]);
+  return setTitle;
+}
+
+function App() {
+  const titleUpdater = useTitle("Loading..."); 
+  setTimeout(() => titleUpdater("Home"), 5000);
+}
+```
+
+> - useTitle은 initialTitle를 인자로 받고 useState는 initialTitle를 초기값으로 갖는다.  
+> - useEffect는 컴포넌트가 마운트 될 때, title이 변경 사항이 있을 때 updateTitle를  실행한다.  
+> - titleUpdater는 useTitle 함수를 사용하는 것이고 매개변수로 Loding... 을 갖는다.  
+> - updateTitle는 title을 가져와 Loding...으로 변경 시켜준다.
+> - setTimeout으로 5초후 Home으로 변경한다.
+
+
