@@ -83,5 +83,32 @@ function App() {
 > - changeItem을 setCurrentIndex로 정의하여 값에 접근하여 바꿔줄수 있도록 한다.  
 > - 버튼의 onClick 이벤트에 changeItem을 넣어준다.  
 
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/59529293f93a15bb4665035f88ea693e88bacd62/src/App.js#L3-L35)
 
 
+## useEffect
+
+> componentWillUnmount, componentDidMount, componentWillUpdate와 비슷하다.
+> 컴포넌트가 렌더링 이후에 어떤 일을 수행해야 할 때 사용한다.
+
+```javascript
+function App() {
+  const [number, setNumber] = useState(0);
+  const [aNumber, setAnumber] = useState(0);
+  const incrementItem = () => setNumber(number + 1);
+  const incrementItemTwo = () => setAnumber(number + 1);
+  const sayHello = () => console.log("Hello");
+  useEffect(() => {
+    sayHello();
+  }, [number]); // number 버튼을 눌렀을 때만 실행된다. 빈 []만 쓰면 한번만 실행된다.
+  return (
+    <div className="App">
+      <h1>Hi</h1>
+      <button onClick={incrementItem}>{number}</button>
+      <button onClick={incrementItemTwo}>{aNumber}</button>
+    </div>
+  );
+}
+```
+> useEffect는 2개의 인자를 받는다. 첫 번째는 function으로서의 effect(ex. sayHello), deps(ex, [number])가 있다면 effect는 deps에 있는 값일 때만 값이 변화도록 활성화 된다.
+> useEffect는 기본적으로 첫번째 렌더링과 이후의 모든 업데이트에서 수행된다.
