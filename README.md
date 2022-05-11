@@ -116,7 +116,7 @@ function App() {
 - [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/af3bacfbf0f20a2e0811748ba86fcbf5cf79cbda/src/App.js#L3-L20)
 
 
-## useEffect
+## useTitle
 
 > 문서 제목을 업데이트한다.
 
