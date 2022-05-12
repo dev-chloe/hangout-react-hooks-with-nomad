@@ -210,15 +210,18 @@ function App() {
 > hook이라기 보다  useEffect와 useState를 사용하지 않는 함수 컴포넌트로 본다.
 
 ```javascript
-const useConfirm = (message= "", callback, rejection) => {
-  if (typeof callback !== "function") {
+const useConfirm = (message= "", onConfirm, onCancel) => {
+  if (onConfirm && typeof onConfirm !== "function") {
+    return;
+  }
+  if (onCancel && typeof onCancel !== "function") {
     return;
   }
   const confirmAction = () => {
     if (window.confirm(message)) {
-      callback();
+      onConfirm();
     } else {
-      rejection();
+      onCancel();
     }
   }
   return confirmAction;
@@ -234,7 +237,9 @@ function App() {
   );
 }
 ```
-> - useConfirm는 기본적으로 message, callback를 넣고 취소를 눌렀을 때도 체크하고 싶다면 rejection 인자로 넣어준다.
-> - callback이 함수가 아나라면 return 시킨다.
-> - confirmAction는 confirm창의 응답에 따른 이벤트 실행 함수로 확인을 누르면 callback()을, 취소를 누르면 rejection() 실행한다.
+> - useConfirm는 기본적으로 message, onConfirm를 넣고 취소를 눌렀을 때도 체크하고 싶다면 onCancel 인자로 넣어준다.
+> - onConfirm이 함수가 아나라면 return 시킨다.
+> - confirmAction는 confirm창의 응답에 따른 이벤트 실행 함수로 확인을 누르면 onConfirm()을, 취소를 누르면 onCancel() 실행한다.
+
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/dfa57b775ebb9c80b384e1afde7831c08a4712bb/src/App.js#L3-L27)
 
