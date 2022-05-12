@@ -201,5 +201,7 @@ function App() {
 > - 이는 리렌더링이 아닐 때는 event를 추가하기 싫으니 function을 추가해준 것이다.  
 > - componentWillUnMount(컴포넌트 제거)에는 removeEventListener로 이벤트를 제거해준다.
 
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/843ce585f13aa9a53ab8b00251bb67b008cb9a43/src/App.js#L3-L29)
+
 
 
