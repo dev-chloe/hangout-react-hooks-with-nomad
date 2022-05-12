@@ -237,9 +237,40 @@ function App() {
   );
 }
 ```
-> - useConfirm는 기본적으로 message, onConfirm를 넣고 취소를 눌렀을 때도 체크하고 싶다면 onCancel 인자로 넣어준다.
-> - onConfirm이 함수가 아나라면 return 시킨다.
-> - confirmAction는 confirm창의 응답에 따른 이벤트 실행 함수로 확인을 누르면 onConfirm()을, 취소를 누르면 onCancel() 실행한다.
+> - useConfirm는 기본적으로 message, onConfirm를 넣고 취소를 눌렀을 때도 체크하고 싶다면 onCancel 인자로 넣어준다.  
+> - onConfirm이 함수가 아나라면 return 시킨다.  
+> - confirmAction는 confirm창의 응답에 따른 이벤트 실행 함수로 확인을 누르면 onConfirm()을, 취소를 누르면 onCancel() 실행한다.  
 
-- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/c38810e8b2430a2ad708e6accc01d0ceb94b0c3f/src/App.js#L3-L30)
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/60369d283ee9c1e1a4100e21c9c5da4da287f384/src/App.js#L3-L30)
+
+
+## usePreventLeave
+
+> 사용자들이 브라우저를 떠나기 전에 confirm창을 띄워 확인 받는 기능을 한다.
+> hook이라기 보다  useEffect와 useState를 사용하지 않는 함수 컴포넌트로 본다.
+
+```javascript
+const usePreventLeave = () => {
+  const listener = (event) => {
+    event.preventDefault();
+    event.returnValue = "";
+  }
+  const enablePrevent = () => window.addEventListener("beforeunload", listener);
+  const disablePrevent = () => window.removeEventListener("beforeunload", listener);
+  return {enablePrevent, disablePrevent}
+}
+
+function App() {
+  const { enablePrevent, disablePrevent } = usePreventLeave();
+  return (
+    <div className="App">
+      <h1>Hi</h1>
+      <button onClick={enablePrevent}>Protect</button>
+      <button onClick={disablePrevent}>Unprotect</button>
+    </div>
+  );
+}
+```
+> - 표준에 따라 기본 동작 방지로 event.preventDefault()하고 Chrome에서는 event.returnValue = "";이 따로 필요하다.
+> - 사용자가 Protect를 클릭하면 window는 beforeunload라는 이벤트를 갖게 되고, EventListner로 listener를 가지게 된다.
 
