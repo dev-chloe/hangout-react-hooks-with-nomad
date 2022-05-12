@@ -241,5 +241,5 @@ function App() {
 > - onConfirm이 함수가 아나라면 return 시킨다.
 > - confirmAction는 confirm창의 응답에 따른 이벤트 실행 함수로 확인을 누르면 onConfirm()을, 취소를 누르면 onCancel() 실행한다.
 
-- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/ad33c952b56ad901ac58d42dbde56b88d0af93b9/src/App.js#L3-L30)
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/c38810e8b2430a2ad708e6accc01d0ceb94b0c3f/src/App.js#L3-L30)
 
