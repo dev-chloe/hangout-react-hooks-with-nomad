@@ -158,3 +158,48 @@ const potato = useRef();
 > - useRef는 .current 프로퍼티에 변경 가능한 값을 담고 있는 “상자”와 같다.  
 > - ref={myRef}를 사용해 React로 ref 객체를 전달하면, React는 노드가 변경될 때마다 변경된 DOM 노드에 그것의 .current 프로퍼티를 설정한다.
 
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/fa3d63b165b90830a04423bd07cbc2d509ae8404/src/App.js#L4-L13)
+
+
+## useClick
+
+> 클릭 이벤터를 관리할 수 있다.
+
+```javascript
+const useClick = (onClick) => {
+  const element = useRef();
+  useEffect(() => {
+    if (element.current) {
+      element.current.addEventListener("click", onClick);
+    }
+    return () => {
+      if (element.current) {
+        element.current.removeEventListener("click", onClick);
+      }
+    }
+  }, [])
+  if (typeof onClick !== "function") {
+    return;
+  }
+  return element;
+}
+
+function App() {
+  const sayHello = () => console.log("hello");
+  const title = useClick(sayHello);
+  return (
+    <div className="App">
+      <h1 ref={title}>Hi</h1>
+    </div>
+  );
+}
+```
+> - useRef를 이용하여 h1을 선택한다.  
+> - useEffect를 사용하여 element.current가 있다면 click 하면 매개변수로 들어온 onClick 함수를 실행하는 event를 지정한다.  
+> - useEffect는 return 값을 주지 않으면 componentDidMount(컴포넌트 실행 완료), componentDidUpdate(컴포턴트 업데이트 완료)일 때만 실행된다.  
+> - useEffect에 함수를 return하면 componentWillUnMount(컴포넌트 제거)일 때 실행된다.  
+> - 이는 리렌더링이 아닐 때는 event를 추가하기 싫으니 function을 추가해준 것이다.  
+> - componentWillUnMount(컴포넌트 제거)에는 removeEventListener로 이벤트를 제거해준다.
+
+
+
