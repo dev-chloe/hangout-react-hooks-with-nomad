@@ -1,21 +1,14 @@
-import { useEffect, useState } from 'react';
-
-const useTitle = (initialTitle) => {
-  const [title, setTitle] = useState(initialTitle);
-  const updateTitle = () => {
-    const htmlTitle = document.querySelector("title");
-    htmlTitle.innerText = title;
-  }
-  useEffect(updateTitle, [title]);
-  return setTitle;
-}
+import {useRef} from 'react';
 
 function App() {
-  const titleUpdater = useTitle("Loading..."); 
-  setTimeout(() => titleUpdater("Home"), 5000);
+  const potato = useRef();
+  setTimeout(() => {
+    potato.current.focus()
+  },5000)
   return (
     <div className="App">
       <h1>Hi</h1>
+      <input placeholder='la' ref={potato} />
     </div>
   );
 }

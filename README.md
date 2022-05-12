@@ -143,4 +143,18 @@ function App() {
 > - updateTitle는 title을 가져와 Loding...으로 변경 시켜준다.
 > - setTimeout으로 5초후 Home으로 변경한다.
 
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/953604ed2d3d48d3e62799d3d3283bb8930d0228/src/App.js#L3-L21)
+
+
+## useRef
+
+> 컴포넌트의 어떤 부분을 선택할 수 있는 방법으로 document.getElementById()를 사용한 것과 같다. 
+
+```javascript
+const potato = useRef();
+<input placeholder='la' ref={potato} />
+```
+
+> - useRef는 .current 프로퍼티에 변경 가능한 값을 담고 있는 “상자”와 같다.  
+> - ref={myRef}를 사용해 React로 ref 객체를 전달하면, React는 노드가 변경될 때마다 변경된 DOM 노드에 그것의 .current 프로퍼티를 설정한다.
 
