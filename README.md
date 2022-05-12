@@ -204,4 +204,37 @@ function App() {
 - [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/843ce585f13aa9a53ab8b00251bb67b008cb9a43/src/App.js#L3-L29)
 
 
+## useConfirm
+
+> 이벤트를 실행하기 전에 사용자에게 확인을 받는 기능 한다.
+> hook이라기 보다  useEffect와 useState를 사용하지 않는 함수 컴포넌트로 본다.
+
+```javascript
+const useConfirm = (message= "", callback, rejection) => {
+  if (typeof callback !== "function") {
+    return;
+  }
+  const confirmAction = () => {
+    if (window.confirm(message)) {
+      callback();
+    } else {
+      rejection();
+    }
+  }
+  return confirmAction;
+}
+function App() {
+  const deleteWorld = () => console.log("Deleting the world...");
+  const abort = () => console.log("Aborted");
+  const confirmDelete = useConfirm("Are you sure?", deleteWorld, abort);
+  return (
+    <div className="App">
+      <button onClick={confirmDelete}>Delete the world</button>
+    </div>
+  );
+}
+```
+> - useConfirm는 기본적으로 message, callback를 넣고 취소를 눌렀을 때도 체크하고 싶다면 rejection 인자로 넣어준다.
+> - callback이 함수가 아나라면 return 시킨다.
+> - confirmAction는 confirm창의 응답에 따른 이벤트 실행 함수로 확인을 누르면 callback()을, 취소를 누르면 rejection() 실행한다.
 
