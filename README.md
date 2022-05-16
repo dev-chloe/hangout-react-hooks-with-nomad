@@ -274,3 +274,37 @@ function App() {
 > - 표준에 따라 기본 동작 방지로 event.preventDefault()하고 Chrome에서는 event.returnValue = "";이 따로 필요하다.
 > - 사용자가 Protect를 클릭하면 window는 beforeunload라는 이벤트를 갖게 되고, EventListner로 listener를 가지게 된다.
 
+
+## useBeforeLeave
+
+> 사용자의 마우스가 브라우저를 벗어나 위쪽으로 가면 실행하는 함수이다.
+
+```javascript
+const useBeforeLeave = (onBefore) => {
+  const handel = (event) => {
+    const { clientY } = event;
+    if (clientY <= 0) {
+      onBefore();
+    }
+  }
+  useEffect(() => {
+    document.addEventListener("mouseleave", handel);
+    return () => document.removeEventListener("mouseleave", handel);
+  }, [])
+  if (typeof onBefore !== "function") {
+    return;
+  }
+}
+
+function App() {
+  const begForLife = () => console.log("Plz dont leave");
+  useBeforeLeave(begForLife);
+  return (
+    <div className="App">
+      <h1>Hi</h1>
+    </div>
+  );
+}
+```
+> - useEffect에 addEventListener를 통해서 mouseleave(웹페이지에서 마우스가 떠날때 발생하는 이벤트)가 발생시 handle을 실행된다.  
+> - useEffect에 return으로 removeEventListener를 준다는건 componentWillUnMount(컴포넌트가 제거될 때) 해당 이벤트를 지운다는 것을 의미하며,  mouseleave 이벤트가 발생시 handle함수 내부에 있는 onBefore 함수를 수행하고 컴포넌트 종료시점에 mouseleave 이벤트를 지우겠다는 것을 의미이다.
