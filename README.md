@@ -274,6 +274,8 @@ function App() {
 > - 표준에 따라 기본 동작 방지로 event.preventDefault()하고 Chrome에서는 event.returnValue = "";이 따로 필요하다.
 > - 사용자가 Protect를 클릭하면 window는 beforeunload라는 이벤트를 갖게 되고, EventListner로 listener를 가지게 된다.
 
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/33de6cdb410dea892a60989ea0cbdb71c5f93db5/src/App.js#L3-L22)
+
 
 ## useBeforeLeave
 
@@ -308,3 +310,41 @@ function App() {
 ```
 > - useEffect에 addEventListener를 통해서 mouseleave(웹페이지에서 마우스가 떠날때 발생하는 이벤트)가 발생시 handle을 실행된다.  
 > - useEffect에 return으로 removeEventListener를 준다는건 componentWillUnMount(컴포넌트가 제거될 때) 해당 이벤트를 지운다는 것을 의미하며,  mouseleave 이벤트가 발생시 handle함수 내부에 있는 onBefore 함수를 수행하고 컴포넌트 종료시점에 mouseleave 이벤트를 지우겠다는 것을 의미이다.
+
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/8eaa5cfdb58c80e5edfafd072c6054023cbc9e32/src/App.js#L3-L27)
+
+
+## useFadeIn
+
+> animation을 hook에 포함하여 어떠한 요소를 서서히 나타나게 만든다.
+
+```javascript
+const useFadeIn = (duration = 1, delay = 0) => {
+  const element = useRef();
+  useEffect(() => {
+    if (element.current) {
+      const { current } = element;
+      current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`;
+      current.style.opacity = 1;
+    }
+  }, [])
+  if(typeof duration !== "number" || typeof delay !== "number") {
+    return;
+  }
+  return {ref: element, style: {opacity: 0}};
+}
+
+function App() {
+  const fadeInH1 = useFadeIn(1, 2);
+  const fadeInP = useFadeIn(5, 5);
+  return (
+    <div className="App">
+      <h1 {...fadeInH1}>Hi</h1>
+      <p {...fadeInP}>ah bye bye</p>
+    </div>
+  );
+}
+```
+> -  useFadeIn에 opacity style과 transition style을 넣어준다.
+> - duration과 delay를 추가하여 사용할 수 있다.
+> - usefadeIn을 활용해 fadein, fadeout 뿐만 아니라 다른 애니메이션으로도 활용 가능하다.
