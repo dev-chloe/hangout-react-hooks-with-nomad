@@ -354,31 +354,29 @@ function App() {
 
 ## useNetwork
 
-> 
+> 현재 네트워크 상태를 확인한다.
 
 ```javascript
-const useFadeIn = (duration = 1, delay = 0) => {
-  const element = useRef();
-  useEffect(() => {
-    if (element.current) {
-      const { current } = element;
-      current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`;
-      current.style.opacity = 1;
-    }
-  }, [])
-  if(typeof duration !== "number" || typeof delay !== "number") {
-    return;
+const useScroll = () => {
+  const [state, setState] = useState({
+    x: 0,
+    y: 0
+  });
+  const onScroll = () => {
+    setState({y: window.scrollY, x: window.scrollX});
   }
-  return {ref: element, style: {opacity: 0}};
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [])
+  return state;
 }
 
 function App() {
-  const fadeInH1 = useFadeIn(1, 2);
-  const fadeInP = useFadeIn(5, 5);
+  const { y } = useScroll();
   return (
-    <div className="App">
-      <h1 {...fadeInH1}>Hi</h1>
-      <p {...fadeInP}>ah bye bye</p>
+    <div className="App" style={{height: "1000vh"}}>
+      <h1 style={{ position: "fixed",color: y > 100 ? "red" : "blue"}}>Hi</h1>
     </div>
   );
 }
@@ -387,3 +385,40 @@ function App() {
 > - navigator.onLine은 웹 사이트의 온라인 상태를 ture 또는 false를 전달한다.  
 > - useNetwork은 onChange라는 함수를 인자로 받는 매개변수로 이루어 져있다.  
 
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/9a5ab778e0f727708b588536c3acb443a7021bd0/src/App.js#L3-L32)
+
+
+## useScroll
+
+> scroll 이벤트를 관리한다.
+
+```javascript
+const useScroll = () => {
+  const [state, setState] = useState({
+    x: 0,
+    y: 0
+  });
+  const onScroll = () => {
+    setState({y: window.scrollY, x: window.scrollX});
+  }
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [])
+  return state;
+}
+
+function App() {
+  const { y } = useScroll();
+  return (
+    <div className="App" style={{height: "1000vh"}}>
+      <h1 style={{ position: "fixed",color: y > 100 ? "red" : "blue"}}>Hi</h1>
+    </div>
+  );
+}
+```
+
+> - useState 초깃값을 x: 0, y: 0으로 설정한다.
+> - onScroll 함수로 스크롤시 변경되는 x, y좌표를 수정한다.
+> - useScroll은 state{{x: x, y: y}}를 반환한다.
+> - useScroll의 리턴 값에서 y 값을 가져온다.

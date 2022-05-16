@@ -1,32 +1,25 @@
 import { useEffect, useState } from 'react';
 
-const useNetwork = onChange => {
-  const [status, setStatus] = useState(navigator.onLine);
-  const handleChange = () => {
-    if (typeof onChange === "function") {
-      onChange(navigator.onLine);
-    }
-    setStatus(navigator.onLine);
+const useScroll = () => {
+  const [state, setState] = useState({
+    x: 0,
+    y: 0
+  });
+  const onScroll = () => {
+    setState({y: window.scrollY, x: window.scrollX});
   }
   useEffect(() => {
-    window.addEventListener("online", handleChange);
-    window.addEventListener("offline", handleChange);
-    return () => {
-      window.removeEventListener("online", handleChange);
-      window.removeEventListener("offline", handleChange);
-    }
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, [])
-  return status;
+  return state;
 }
 
 function App() {
-  const handleNetworkChange = (online) => {
-    console.log(online ? "We just went online" : "We are offline");
-  }
-  const online = useNetwork(handleNetworkChange);
+  const { y } = useScroll();
   return (
-    <div className="App">
-      <h1>{online ? "Online" : "Offline"}</h1>
+    <div className="App" style={{height: "1000vh"}}>
+      <h1 style={{ position: "fixed",color: y > 100 ? "red" : "blue"}}>Hi</h1>
     </div>
   );
 }
