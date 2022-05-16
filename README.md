@@ -345,6 +345,45 @@ function App() {
   );
 }
 ```
-> -  useFadeIn에 opacity style과 transition style을 넣어준다.
-> - duration과 delay를 추가하여 사용할 수 있다.
-> - usefadeIn을 활용해 fadein, fadeout 뿐만 아니라 다른 애니메이션으로도 활용 가능하다.
+> - useFadeIn에 opacity style과 transition style을 넣어준다.  
+> - duration과 delay를 추가하여 사용할 수 있다.  
+> - usefadeIn을 활용해 fadein, fadeout 뿐만 아니라 다른 애니메이션으로도 활용 가능하다.  
+
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/83a499bbb26f800f12c02c6b9cb0b63d46ee6256/src/App.js#L3-L27)
+
+
+## useNetwork
+
+> 
+
+```javascript
+const useFadeIn = (duration = 1, delay = 0) => {
+  const element = useRef();
+  useEffect(() => {
+    if (element.current) {
+      const { current } = element;
+      current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`;
+      current.style.opacity = 1;
+    }
+  }, [])
+  if(typeof duration !== "number" || typeof delay !== "number") {
+    return;
+  }
+  return {ref: element, style: {opacity: 0}};
+}
+
+function App() {
+  const fadeInH1 = useFadeIn(1, 2);
+  const fadeInP = useFadeIn(5, 5);
+  return (
+    <div className="App">
+      <h1 {...fadeInH1}>Hi</h1>
+      <p {...fadeInP}>ah bye bye</p>
+    </div>
+  );
+}
+```
+> - Navigator 인터페이스는 사용자 에이전트의 상태와 신원 정보를 나타내며, 스크립트로 해당 정보를 질의할 때와 애플리케이션을 특정 활동에 등록할 때 사용한다.  
+> - navigator.onLine은 웹 사이트의 온라인 상태를 ture 또는 false를 전달한다.  
+> - useNetwork은 onChange라는 함수를 인자로 받는 매개변수로 이루어 져있다.  
+
