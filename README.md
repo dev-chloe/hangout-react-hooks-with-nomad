@@ -422,3 +422,50 @@ function App() {
 > - onScroll 함수로 스크롤시 변경되는 x, y좌표를 수정한다.
 > - useScroll은 state{{x: x, y: y}}를 반환한다.
 > - useScroll의 리턴 값에서 y 값을 가져온다.
+
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/9a5ab778e0f727708b588536c3acb443a7021bd0/src/App.js#L3-L32)
+
+
+## useFullscreen
+
+> element를 전체화면으로 띄웠다가 끌 수 있게 해준다.
+
+```javascript
+const useFullscreen = (callback) => {
+  const element = useRef();
+  const triggerFull = () => {
+    if (element.current) {
+      element.current.requestFullscreen();
+      if (callback && typeof callback === "function") {
+        callback(true);
+      }
+    }
+  }
+  const exitFull = () => {
+    document.exitFullscreen();
+    if (callback && typeof callback === "function") {
+      callback(false);
+    }
+  }
+  return {element, triggerFull, exitFull};
+}
+
+function App() {
+  const onFullS = (isFull) => {
+    console.log(isFull ? "We are full" : "We are small");
+  }
+  const { element, triggerFull, exitFull } = useFullscreen(onFullS);
+  return (
+    <div className="App" style={{ height: "1000vh" }}>
+      <div ref={element}>
+        <img style={{width: "100%"}} src="https://images.unsplash.com/photo-1548222606-6c4f581fd09d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1197&q=80" alt="img" />
+        <button onClick={exitFull}>Exit fullscreen</button>
+      </div>
+      <button onClick={triggerFull}>Make fullscreen</button>
+    </div>
+  );
+}
+```
+
+> - useFullscreen 함수의 경우 callback 함수를 인자로 받을 수 있다.
+> - exitFull은 document를 통해 실행시키고 triggerFull 에서는 해당 element를 통해 접근하여 requestFullscreen함수를 호출한다.
