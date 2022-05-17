@@ -519,3 +519,48 @@ function App() {
 | default | 사용자의 선택을 알 수 없기 때문에 브라우저가 거절한 상태의 값으로 작동하게됨 |
 
 > - 권한 설정이 되어 있지 않으면 Notification.requestPermission() 객체를 생성해 권한을 요청하고, 허용하면 permission을 granted로 바꾼 후 알림을 실행한다.
+
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/e7a05b163eae0bff44674179a2bb1e0772df7969/src/App.js#L1-L30)
+
+
+## useAxios
+
+> 비동기 통신으로 API를 로드 할 수 있다.
+
+```javascript
+const useAxios = (opts, axiosInstance = defaultAxios) => {
+  const [state, setState] = useState({
+    loading: true,
+    error: null,
+    data: null
+  })
+  const [trigger, setTrigger] = useState(0);
+  const refetch = () => {
+    setState({
+      ...state,
+      loading: true
+    })
+    setTrigger(Date.now());
+  }
+  useEffect(() => {
+    axiosInstance(opts).then(data => {
+      setState({
+        ...state,
+        loading: false,
+        data
+      })
+    }).catch(error => {
+      setState({ ...state, loading: false, error });
+    })
+  }, [trigger])
+  if (!opts.url) {
+    return;
+  }
+  return {...state, refetch};
+}
+```
+
+> - useAxios의 리턴인 ...state는 {lodaing, data, error}와 {refetch}를 가지고 있다.
+> - test용 json url을 넣으면 해당 json의 정보를 받아 사용할 수 있게 된다.
+
+
