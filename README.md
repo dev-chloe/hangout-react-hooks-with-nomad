@@ -469,3 +469,53 @@ function App() {
 
 > - useFullscreen 함수의 경우 callback 함수를 인자로 받을 수 있다.
 > - exitFull은 document를 통해 실행시키고 triggerFull 에서는 해당 element를 통해 접근하여 requestFullscreen함수를 호출한다.
+
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/e265e9ccb9fb59b7cfee820c2bb4cf456cef4367/src/App.js#L3-L54)
+
+
+## useNotification
+
+> Notifications API를 이용해 알림을 설정하고 보여줄 수 있다.
+
+```javascript
+const useNotification = (title, options) => {
+  if (!("Notification" in window)) {
+    return;
+  }
+  const fireNotif = () => {
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          new Notification(title, options);
+        } else {
+          return;
+        }
+      })
+    } else {
+      new Notification(title, options);
+    }
+  }
+  return fireNotif;
+}
+
+function App() {
+  const triggerNotif = useNotification("Can I steal your banana?", {
+    body: "I love banana dont you?"
+  });
+  return (
+    <div className="App" style={{ height: "1000vh" }}>
+      <button onClick={triggerNotif}>Hi</button>
+    </div>
+  );
+}
+```
+
+> - Notification.permission은 알림을 표시하기 위한 현재의 권한을 나타낸다.  
+
+|   상태   |         설명         |
+|:-------:| :------------------ |
+| denied  | 사용자가 알림 표시를 거절 |
+| granted | 사용자가 알림 표시를 허용 |
+| default | 사용자의 선택을 알 수 없기 때문에 브라우저가 거절한 상태의 값으로 작동하게됨 |
+
+> - 권한 설정이 되어 있지 않으면 Notification.requestPermission() 객체를 생성해 권한을 요청하고, 허용하면 permission을 granted로 바꾼 후 알림을 실행한다.
