@@ -2,6 +2,10 @@
 
 Learning React Hooks
 
+## 수료증
+
+[![certification](./certification.png)](https://nomadcoders.co/certs/8373f0d0-ce4e-441b-8d5f-405ecb105475)
+
 ## useState
 
 > 컴포넌트에서 바뀌는 값 관리할 수 있다.
@@ -562,5 +566,8 @@ const useAxios = (opts, axiosInstance = defaultAxios) => {
 
 > - useAxios의 리턴인 ...state는 {lodaing, data, error}와 {refetch}를 가지고 있다.
 > - test용 json url을 넣으면 해당 json의 정보를 받아 사용할 수 있게 된다.
+
+- [예제 코드 블럭](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/41608cb17e99d97bd4ca45e961463c79ee83cd41/src/useAxios.js#L4-L33)
+- [예제 코드 블럭2](https://github.com/dev-chloe/hangout-react-hooks-with-nomad/blob/41608cb17e99d97bd4ca45e961463c79ee83cd41/src/App.js#L3-L14)
 
 
